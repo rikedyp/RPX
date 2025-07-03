@@ -1,21 +1,25 @@
-﻿:Namespace RikedyP ⍝ v0.2
+﻿:Namespace RikedyP ⍝ v0.3
 ⍝ Custom user commands
 
     ⎕IO←1 ⋄ ⎕ML←1
 
     ∇ r←List
-      r←,⎕NS ⍬
+      r←⎕NS¨2⍴⊂⍬
     ⍝ Name, group, short description and parsing rules
-      r.Name←⊆'LS'
-      r.Group←⊆'RikedyP'
+      r.Name←'LS' 'NOW'
+      r.Group←⊂'RikedyP'
       r[1].Desc←'List directory contents'
-      r.Parse←⊆'' ⍝ ENTER NUMBER OF ARGS AND OPTIONALLY -modifiers HERE (for details, see https://docs.dyalog.com/20.0/User%20Commands%20User%20Guide.pdf#page=18 )
+      ⍝r[1].Parse←⊆'' ⍝ ENTER NUMBER OF ARGS AND OPTIONALLY -modifiers HERE (for details, see https://docs.dyalog.com/20.0/User%20Commands%20User%20Guide.pdf#page=18 )
+      r[2].Desc←'Human-readable current date and time'
+      r.Parse←⊂''
     ∇
 
     ∇ r←Run(cmd input)
       :Select cmd
       :Case 'LS'
           r←LS input
+      :Case 'NOW'
+          r←Now ⍬
       :EndSelect
     ∇
 
@@ -23,6 +27,8 @@
       :Select cmd
       :Case 'LS'
           r←'List contents of directory. Default is current directory, else user may provide a single argument of a relative or absolute folder path.'
+      :Case 'NOW'
+          r←'Tell the current date and time in English'
       :EndSelect
     ∇
 
@@ -49,6 +55,13 @@
           windows←'W'=⊃⊃'.'⎕WG'APLVersion'
           windows:'\'@('/'∘=)⍵
           '/'@('\'∘=)⍵
+      }
+
+      Now←{
+          now←1 ⎕DT⊂⎕TS ⋄ HRDT←⊃1200⌶
+          day←'Dddd Doo Mmmm YYYY'HRDT now
+          time←'hh:mm:ss'HRDT now
+          'It is ',day,' at ',time
       }
 
 :EndNamespace
