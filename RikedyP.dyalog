@@ -21,7 +21,7 @@
 
     ∇ r←level Help cmd
       :Select cmd
-      :Case 'ls'
+      :Case 'LS'
           r←'List contents of directory. Default is current directory, else user may provide a single argument of a relative or absolute folder path.'
       :EndSelect
     ∇
